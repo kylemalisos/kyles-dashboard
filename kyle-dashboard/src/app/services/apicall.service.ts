@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import { Observable, lastValueFrom } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Constants } from '../config/constants';
-import { PollenData, PollenCount, PollenRisk } from '../../models/pollen-data';
 
 @Injectable({
   providedIn: 'root'
@@ -35,10 +33,10 @@ export class ApiCallService {
     let weatherUrl = this.constants.WeatherApi;
     let weatherHeaders = new HttpHeaders();
     let weatherParams = new HttpParams();
-    weatherParams.append("lat", this.constants.KC_LAT);
-    weatherParams.append("lon", this.constants.KC_LAT);
-    weatherParams.append("units", this.constants.UNITS);
-    weatherParams.append("appid", this.constants.WeatherApiKey);
+    weatherParams = weatherParams.append("lat", this.constants.KC_LAT);
+    weatherParams = weatherParams.append("lon", this.constants.KC_LON);
+    weatherParams = weatherParams.append("units", this.constants.UNITS);
+    weatherParams = weatherParams.append("appid", this.constants.WeatherApiKey);
 
     return new Promise(resolve => {
       this.fireRequest(weatherUrl, weatherHeaders, weatherParams).then(data => {
@@ -48,18 +46,10 @@ export class ApiCallService {
   }
 
   async fireRequest(url: string,  headers: HttpHeaders, params: HttpParams ) {
-    
-    let httpOptions = {}; 
-    if (headers) {
-      httpOptions = {
-        headers: headers,
-        params: params
-      };
-    } else {
-      httpOptions = {
-        params: params
-      };
-    }
+    const httpOptions = {
+      headers: headers,
+      params: params
+    };
 
     return new Promise(resolve => {
       this.http.get<any>(url, httpOptions).subscribe(data => {
