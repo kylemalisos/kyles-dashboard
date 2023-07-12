@@ -7,6 +7,7 @@ import { ApiCallService } from '../services/apicall.service';
   styleUrls: ['./weather.component.scss']
 })
 export class WeatherComponent {
+  location: string = '';
 
   constructor(private apicallservice: ApiCallService) {}
 
@@ -22,5 +23,6 @@ export class WeatherComponent {
 
   populateData(data: any) {
     console.log(data.name);
+    this.location = data.name;
   }
 }
